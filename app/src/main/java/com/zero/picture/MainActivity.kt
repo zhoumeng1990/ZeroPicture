@@ -7,7 +7,7 @@ import com.zero.picture.popup.PicturePopup
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() , View.OnClickListener{
-    private val picturePopup = PicturePopup(this,this)
+    private lateinit var picturePopup : PicturePopup
     override fun onClick(v: View) {
         when {
             v.id == R.id.btn_photo ->{picturePopup.dismiss()}
@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() , View.OnClickListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        picturePopup = PicturePopup(this,this)
         btn_click.setOnClickListener { picturePopup.show() }
     }
 }

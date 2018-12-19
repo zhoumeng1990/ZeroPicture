@@ -31,12 +31,7 @@ public class PicturePopup extends PopupWindow {
 
         btn_select.setOnClickListener(clickListener);
         btn_camera.setOnClickListener(clickListener);
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
+        btn_cancel.setOnClickListener(v -> dismiss());
 
         // 导入布局
         this.setContentView(view);
@@ -47,19 +42,7 @@ public class PicturePopup extends PopupWindow {
         ColorDrawable dw = new ColorDrawable(0x0000000);
         this.setBackgroundDrawable(dw);
         // 单击弹出窗以外处 关闭弹出窗
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                int height = view.findViewById(R.id.ll_pop).getTop();
-                int y = (int) event.getY();
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    if (y < height) {
-                        dismiss();
-                    }
-                }
-                return true;
-            }
-        });
+        view.setOnClickListener(v -> dismiss());
     }
 
     public void show(){
