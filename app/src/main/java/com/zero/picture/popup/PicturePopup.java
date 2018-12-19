@@ -1,44 +1,36 @@
 package com.zero.picture.popup;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.WindowManager;
+import android.view.*;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import com.zero.picture.R;
 
-public class PhotoPopupWindow extends PopupWindow {
+public class PicturePopup extends PopupWindow {
 
     private View view; // PopupWindow 菜单布局
-    private Context mContext; // 上下文参数
-    private View.OnClickListener mSelectListener; // 相册选取的点击监听器
-    private View.OnClickListener mCaptureListener; // 拍照的点击监听器
+    private Context context; // 上下文参数
+    private View.OnClickListener clickListener;
 
-    public PhotoPopupWindow(Activity context, View.OnClickListener selectListener, View.OnClickListener captureListener) {
+    public PicturePopup(Context context, View.OnClickListener clickListener) {
         super(context);
-        this.mContext = context;
-        this.mSelectListener = selectListener;
-        this.mCaptureListener = captureListener;
-        Init();
+        this.context = context;
+        this.clickListener = clickListener;
+        init();
     }
 
     /**
      * 设置布局以及点击事件
      */
-    private void Init() {
-        LayoutInflater inflater = (LayoutInflater) mContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        view = inflater.inflate(R.layout.pop_picture, null);
-        Button btn_camera = view.findViewById(R.id.icon_btn_camera);
-        Button btn_select = view.findViewById(R.id.icon_btn_select);
-        Button btn_cancel = view.findViewById(R.id.icon_btn_cancel);
+    private void init() {
+        view = LayoutInflater.from(context).inflate(R.layout.pop_picture, null);
+        Button btn_camera = view.findViewById(R.id.btn_photo);
+        Button btn_select = view.findViewById(R.id.btn_album);
+        Button btn_cancel = view.findViewById(R.id.btn_cancel);
 
-        btn_select.setOnClickListener(mSelectListener);
-        btn_camera.setOnClickListener(mCaptureListener);
+        btn_select.setOnClickListener(clickListener);
+        btn_camera.setOnClickListener(clickListener);
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,5 +60,9 @@ public class PhotoPopupWindow extends PopupWindow {
                 return true;
             }
         });
+    }
+
+    public void show(){
+        showAtLocation(view, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
     }
 }
