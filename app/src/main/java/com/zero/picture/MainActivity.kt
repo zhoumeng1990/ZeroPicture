@@ -24,13 +24,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         private const val IMAGE_FILE_NAME = "icon.jpg"
         private const val PHOTO_PERMISSION = 0x000101
         private const val ALBUM_PERMISSION = 0x000102
-        private const val REQUEST_IMAGE_GET = 0
-        private const val REQUEST_IMAGE_CAPTURE = 1
+        private const val REQUEST_IMAGE_ALBUM = 0
+        private const val REQUEST_IMAGE_PHOTO = 1
         private const val REQUEST_SMALL_IMAGE_CUTTING = 2
     }
     override fun onClick(v: View) {
-        when {
-            v.id == R.id.btn_photo -> {
+        when (v.id){
+            R.id.btn_photo -> {
                 picturePopup.dismiss()
                 val file = File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME)
                 val fileUri = FileProviderForPhoto.getUriForFile(this@MainActivity, file)
@@ -44,17 +44,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     ) {
                         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), PHOTO_PERMISSION)
                     } else {
-                        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
+                        startActivityForResult(intent, REQUEST_IMAGE_PHOTO)
                     }
                 }
             }
-            v.id == R.id.btn_album -> {
+            R.id.btn_album -> {
                 picturePopup.dismiss()
                 val intent = Intent(Intent.ACTION_PICK)
                 intent.type = "image/*"
                 // 判断系统中是否有处理该 Intent 的 Activity
                 if (intent.resolveActivity(packageManager) != null) {
-                    startActivityForResult(intent, REQUEST_IMAGE_GET)
+                    startActivityForResult(intent, REQUEST_IMAGE_ALBUM)
                 } else {
                     Toast.makeText(this@MainActivity, "未找到图片查看器", Toast.LENGTH_SHORT).show()
                 }
@@ -73,11 +73,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == PHOTO_PERMISSION) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
+                startActivityForResult(intent, REQUEST_IMAGE_PHOTO)
             }
         }else if(requestCode == ALBUM_PERMISSION){
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startActivityForResult(intent, REQUEST_IMAGE_GET)
+                startActivityForResult(intent, REQUEST_IMAGE_ALBUM)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            when (requestCode) {
+                REQUEST_IMAGE_PHOTO ->{}
+                REQUEST_IMAGE_ALBUM ->{}
             }
         }
     }
