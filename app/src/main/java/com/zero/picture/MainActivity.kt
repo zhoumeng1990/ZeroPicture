@@ -26,12 +26,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     companion object {
         private const val IMAGE_FILE_NAME = "icon.jpg"
-        private const val PHOTO_PERMISSION = 0x000101
-        private const val ALBUM_PERMISSION = 0x000102
-        private const val REQUEST_IMAGE_ALBUM = 0
-        private const val REQUEST_IMAGE_PHOTO = 1
-        private const val REQUEST_SMALL_IMAGE_CUTTING = 2
-        private const val MY_PERMISSIONS_REQUEST_READ_MEDIA = 4
+        private const val REQUEST_IMAGE_ALBUM = 0x0000
+        private const val REQUEST_IMAGE_PHOTO = 0x0001
+        private const val REQUEST_SMALL_IMAGE_CUTTING = 0x0002
+        private const val REQUEST_READ_MEDIA_AND_CAMERA = 0x0003
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,14 +37,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_main)
         picturePopup = PicturePopup(this, this)
         btn_click.setOnClickListener { picturePopup.show() }
-        val permissionCheck =
-            ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                MY_PERMISSIONS_REQUEST_READ_MEDIA
-            )
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            val permissionCheck =
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA),
+                    REQUEST_READ_MEDIA_AND_CAMERA
+                )
+            }
         }
     }
 
@@ -58,18 +58,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 val fileUri = FileProviderForPhoto.getUriForFile(this@MainActivity, file)
                 val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri)
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (ContextCompat.checkSelfPermission(
-                            this,
-                            Manifest.permission.CAMERA
-                        ) != PackageManager.PERMISSION_GRANTED
-                    ) {
-                        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), PHOTO_PERMISSION)
-                    } else {
-                        startActivityForResult(intent, REQUEST_IMAGE_PHOTO)
-                    }
-                }
+                startActivityForResult(intent, REQUEST_IMAGE_PHOTO)
             }
             R.id.btn_album -> {
                 picturePopup.dismiss()
@@ -85,19 +74,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == PHOTO_PERMISSION) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startActivityForResult(intent, REQUEST_IMAGE_PHOTO)
-            }
-        } else if (requestCode == ALBUM_PERMISSION) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                startActivityForResult(intent, REQUEST_IMAGE_ALBUM)
-            }
-        }
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
@@ -108,21 +84,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                     pictureZoom(uri)
                 }
                 REQUEST_IMAGE_ALBUM -> {
-                    if (data != null && data.data != null && data.data!!.toString().contains("com.miui.gallery.open")) {
+                    if (data?.data != null && data.data!!.toString().contains("com.miui.gallery.open")) {
                         pathName = UriUtil.getRealFilePath(this, data.data)
                         temp = File(pathName)
-                        val permissionCheck =
-                            ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-
-                        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(
-                                this,
-                                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                                MY_PERMISSIONS_REQUEST_READ_MEDIA
-                            )
-                        } else {
-                            pictureZoom(UriUtil.getImageContentUri(this, temp))
-                        }
+                        pictureZoom(UriUtil.getImageContentUri(this, temp))
                     } else {
                         if (data != null) {
                             pictureZoom(data.data)
