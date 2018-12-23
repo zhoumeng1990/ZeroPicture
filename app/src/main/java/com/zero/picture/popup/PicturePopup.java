@@ -9,8 +9,8 @@ import com.zero.picture.R;
 
 public class PicturePopup extends PopupWindow {
 
-    private View view; // PopupWindow 菜单布局
-    private Context context; // 上下文参数
+    private View view;
+    private Context context;
     private View.OnClickListener clickListener;
 
     public PicturePopup(Context context, View.OnClickListener clickListener) {

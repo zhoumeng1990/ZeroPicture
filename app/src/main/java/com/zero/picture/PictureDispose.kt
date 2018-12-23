@@ -20,7 +20,10 @@ class PictureDispose {
         fun startSmallPhotoZoom(activity: Activity, uri: Uri?, code: Int) {
             val intent = Intent("com.android.camera.action.CROP")
             intent.setDataAndType(uri, "image/*")
+            //以下两行添加，解决无法加载此图片的提示
+            //临时访问读权限  intent的接受者将被授予 INTENT 数据uri 或者 在ClipData 上的读权限
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            //临时访问写权限  intent的接受者将被授予 INTENT 数据uri 或者 在ClipData 上的读权限
             intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
             intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
             intent.putExtra("crop", "true")
