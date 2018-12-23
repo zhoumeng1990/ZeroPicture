@@ -16,7 +16,7 @@
 
 ![Android7.0变更图](https://img-blog.csdnimg.cn/20181223234046922.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3BhbmdwYW5nMTIzNjU0,size_16,color_FFFFFF,t_70)
 
-官方已经指出问题所在，并给出了解决方案，通过FileProvider操作来解决闪退的问题。解决方案现在已经好多，今天这里不做多余的赘述，有兴趣可以通过 GitHub 去下载我的demo。
+官方已经指出问题所在，并给出了解决方案，通过FileProvider操作来解决闪退的问题。解决方案现在已经好多，今天这里不做多余的赘述，有兴趣可以直接看demo。
 
 ## 2、无法加载此图片
 
