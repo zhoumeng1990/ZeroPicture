@@ -10,7 +10,10 @@ import android.provider.MediaStore
 import android.widget.ImageView
 import java.io.File
 import java.io.FileOutputStream
-
+/**
+ * Created by ZhouMeng on 2018/12/24.
+ * 图片处理公共类
+ */
 class PictureDispose {
     companion object {
         /**

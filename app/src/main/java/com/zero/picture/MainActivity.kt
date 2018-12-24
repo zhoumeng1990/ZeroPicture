@@ -18,7 +18,10 @@ import com.zero.libraryforphoto.UriUtil
 import com.zero.picture.popup.PicturePopup
 import kotlinx.android.synthetic.main.activity_main.*
 import java.io.File
-
+/**
+ * Created by ZhouMeng on 2018/12/24.
+ * 启动页
+ */
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var picturePopup: PicturePopup
     private var pathName = Environment.getExternalStorageDirectory().toString() + "/" + IMAGE_FILE_NAME

@@ -9,12 +9,13 @@ import java.io.File;
 
 /**
  * Created by ZhouMeng on 2018/12/19.
+ * Android7.0及以上处理
  */
 
 public class FileProviderForPhoto {
 
     public static Uri getUriForFile(Context context, File file) {
-        Uri fileUri = null;
+        Uri fileUri;
         if (Build.VERSION.SDK_INT >= 24) {
             fileUri = getUriForFile24(context, file);
         } else {

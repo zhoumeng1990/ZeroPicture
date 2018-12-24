@@ -6,7 +6,10 @@ import android.view.*;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import com.zero.picture.R;
-
+/**
+ * Created by ZhouMeng on 2018/12/24.
+ * 弹窗
+ */
 public class PicturePopup extends PopupWindow {
 
     private View view;
