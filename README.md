@@ -4,10 +4,10 @@
 说是坑，有点欲加之罪的感觉，其实就是Android7.0的一个行为变更，以拍照为例，代码如下：
 
 ```
-                val file = File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME)
-                val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file))
-                startActivityForResult(intent, REQUEST_IMAGE_PHOTO)
+val file = File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME)
+val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file))
+startActivityForResult(intent, REQUEST_IMAGE_PHOTO)
 ```
 一经运行，在7.0以下的系统是可以正常运行，7.0及以上，便出现以下闪退，提示“android.os.FileUriExposedException: file:///storage/emulated/0/icon.jpg exposed beyond app through ClipData.Item.getUri()”，如图所示：
 ![Android7.0](https://img-blog.csdnimg.cn/20181223233011902.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3BhbmdwYW5nMTIzNjU0,size_16,color_FFFFFF,t_70)

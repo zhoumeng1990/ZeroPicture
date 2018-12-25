@@ -47,7 +47,7 @@ public class UriUtil {
     }
 
     /**
-     * 将URI转为图片的路径
+     * 将Uri转为图片的路径
      *
      * @param context
      * @param uri
