@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -16,8 +17,10 @@ import androidx.core.content.ContextCompat
 import com.zero.libraryforphoto.FileProviderForPhoto
 import com.zero.libraryforphoto.UriUtil
 import com.zero.picture.popup.PicturePopup
-import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.*
+import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.io.File
+
 /**
  * Created by ZhouMeng on 2018/12/24.
  * 启动页
@@ -26,6 +29,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var picturePopup: PicturePopup
     private var pathName = Environment.getExternalStorageDirectory().toString() + "/" + IMAGE_FILE_NAME
     private var temp: File? = null
+    private lateinit var ivPicture: ImageView
 
     companion object {
         private const val IMAGE_FILE_NAME = "icon.jpg"
@@ -37,9 +41,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        verticalLayout {
+            button {
+                text = "clicked"
+                onClick {
+                    picturePopup.show()
+                }
+            }.lparams(wrapContent)
+
+            imageView { id = R.id.ivPicture }.lparams(dip(180), dip(180))
+        }
+
+//        setContentView(R.layout.activity_main)
         picturePopup = PicturePopup(this, this)
-        btn_click.setOnClickListener { picturePopup.show() }
+//        btn_click.setOnClickListener { picturePopup.show() }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val permissionCheck =
                 ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -51,6 +67,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 )
             }
         }
+        ivPicture = findViewById(R.id.ivPicture)
     }
 
     override fun onClick(v: View) {
@@ -99,14 +116,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 }
                 REQUEST_SMALL_IMAGE_CUTTING -> {
                     if (data != null) {
-                        PictureDispose.setPicToView(data,iv_picture,temp,pathName)
+                        PictureDispose.setPicToView(data, ivPicture, temp, pathName)
                     }
                 }
             }
         }
     }
 
-    private fun pictureZoom(uri: Uri?){
-        PictureDispose.startSmallPhotoZoom(this,uri,REQUEST_SMALL_IMAGE_CUTTING)
+    private fun pictureZoom(uri: Uri?) {
+        PictureDispose.startSmallPhotoZoom(this, uri, REQUEST_SMALL_IMAGE_CUTTING)
     }
 }
