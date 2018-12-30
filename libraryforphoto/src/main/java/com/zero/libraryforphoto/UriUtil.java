@@ -15,10 +15,9 @@ import java.io.File;
  */
 public class UriUtil {
     /**
-     * 拿到小米的URI
      * @param context
      * @param imageFile
-     * @return
+     * @return 拿到小米的URI
      */
     public static Uri getImageContentUri(Context context, File imageFile) {
         String filePath = imageFile.getAbsolutePath();
@@ -47,11 +46,9 @@ public class UriUtil {
     }
 
     /**
-     * 将Uri转为图片的路径
-     *
      * @param context
      * @param uri
-     * @return
+     * @return 将Uri转为图片的路径
      */
     public static String getRealFilePath(final Context context, final Uri uri) {
         if (null == uri)

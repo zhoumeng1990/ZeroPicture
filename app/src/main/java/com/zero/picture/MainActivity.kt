@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         private const val REQUEST_READ_MEDIA_AND_CAMERA = 0x0003
     }
 
+    //使用anko布局
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -56,6 +57,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 //        setContentView(R.layout.activity_main)
         picturePopup = PicturePopup(this, this)
 //        btn_click.setOnClickListener { picturePopup.show() }
+        //运行时权限
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val permissionCheck =
                 ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
