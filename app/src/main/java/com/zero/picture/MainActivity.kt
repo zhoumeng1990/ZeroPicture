@@ -16,7 +16,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.zero.libraryforphoto.FileProviderForPhoto
 import com.zero.libraryforphoto.UriUtil
-import com.zero.picture.popup.PicturePopup
+import com.zero.picture.popup.PicturePopupForKotlin
 import org.jetbrains.anko.*
 import org.jetbrains.anko.sdk25.coroutines.onClick
 import java.io.File
@@ -26,7 +26,7 @@ import java.io.File
  * 启动页
  */
 class MainActivity : AppCompatActivity(), View.OnClickListener {
-    private lateinit var picturePopup: PicturePopup
+    private lateinit var picturePopup: PicturePopupForKotlin
     private var pathName = Environment.getExternalStorageDirectory().toString() + "/" + IMAGE_FILE_NAME
     private var temp: File? = null
     private lateinit var ivPicture: ImageView
@@ -55,7 +55,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
 
 //        setContentView(R.layout.activity_main)
-        picturePopup = PicturePopup(this, this)
+        picturePopup = PicturePopupForKotlin(this, this)
 //        btn_click.setOnClickListener { picturePopup.show() }
         //运行时权限
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
