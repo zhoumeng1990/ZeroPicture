@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Gravity
 import android.view.View
+import android.widget.Button
 import android.widget.PopupWindow
 import com.zero.picture.R
 import org.jetbrains.anko.*
@@ -17,7 +18,7 @@ import org.jetbrains.anko.sdk25.coroutines.onClick
 class PicturePopupForKotlin(private val context: Context, private val clickListener: View.OnClickListener) :
     PopupWindow(context) {
 
-    private var view: View? = null
+    private lateinit var view: View
 
     init {
         init()
@@ -35,6 +36,7 @@ class PicturePopupForKotlin(private val context: Context, private val clickListe
                 backgroundColor = Color.parseColor("#66000000")
                 button{
                     text = "拍照"
+                    id = R.id.btnPhoto
                     background = context.getDrawable(R.drawable.shape_btn_top)
                 }.lparams(width = matchParent,height = wrapContent)
 
@@ -42,6 +44,7 @@ class PicturePopupForKotlin(private val context: Context, private val clickListe
 
                 button{
                     text = "相册"
+                    id = R.id.btnAlbum
                     background = context.getDrawable(R.drawable.shape_btn_top)
                 }.lparams(width = matchParent,height = wrapContent)
 
@@ -52,6 +55,9 @@ class PicturePopupForKotlin(private val context: Context, private val clickListe
                 }.lparams(width = matchParent,height = wrapContent)
             }
         }
+
+        view.find<Button>(R.id.btnPhoto).setOnClickListener(clickListener)
+        view.find<Button>(R.id.btnAlbum).setOnClickListener(clickListener)
 
 //        view = LayoutInflater.from(context).inflate(R.layout.pop_picture, null)
 //        val btn_camera = view!!.findViewById<Button>(R.id.btn_photo)
@@ -71,7 +77,7 @@ class PicturePopupForKotlin(private val context: Context, private val clickListe
         val dw = ColorDrawable(0x0000000)
         this.setBackgroundDrawable(dw)
         // 单击弹出窗以外处 关闭弹出窗
-        view!!.setOnClickListener { dismiss() }
+        view.setOnClickListener { dismiss() }
     }
 
     fun show() {

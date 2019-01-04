@@ -1,3 +1,5 @@
 <resources>
     <item name="ivPicture" type="id"/>
+    <item name="btnPhoto" type="id"/>
+    <item name="btnAlbum" type="id"/>
 </resources>
