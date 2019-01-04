@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 )
             }
         }
-        ivPicture = findViewById(R.id.ivPicture)
+        ivPicture = find(R.id.ivPicture)
     }
 
     override fun onClick(v: View) {
