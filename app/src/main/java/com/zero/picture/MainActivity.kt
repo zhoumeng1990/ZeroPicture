@@ -55,6 +55,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         }
 
 //        setContentView(R.layout.activity_main)
+        /**
+         * 采用kotlin + anko 优化
+         */
+//        picturePopup = PicturePopup(this, this)
         picturePopup = PicturePopupForKotlin(this, this)
 //        btn_click.setOnClickListener { picturePopup.show() }
         //运行时权限
